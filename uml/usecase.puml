@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Guest" as guest
+actor "User (Pelanggan)" as user
+actor "Admin" as admin
+
+rectangle "Sistem E-Commerce HP" {
+  usecase "Melihat Katalog Produk" as UC1
+  usecase "Melihat Detail Produk" as UC2
+  usecase "Login & Register" as UC3
+  usecase "Menambah ke Keranjang/Pesan" as UC4
+  usecase "Mengelola Profil" as UC5
+  usecase "Mengelola Data Produk (CRUD)" as UC6
+  usecase "Mengelola Kategori Produk" as UC7
+  usecase "Melihat Pesanan Masuk" as UC8
+}
+
+guest --> UC1
+guest --> UC2
+guest --> UC3
+
+user --> UC1
+user --> UC2
+user --> UC4
+user --> UC5
+
+admin --> UC6
+admin --> UC7
+admin --> UC8
+
+@enduml

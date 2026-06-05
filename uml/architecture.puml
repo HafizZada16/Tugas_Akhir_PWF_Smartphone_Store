@@ -1,0 +1,37 @@
+@startuml
+node "Client Browser" {
+  [Blade Views (HTML/CSS/JS)] as views
+}
+
+node "Laravel Web Server (Apache/Nginx)" {
+  [Routes (web.php, api.php)] as routes
+  
+  package "Controllers" {
+    [ProductController]
+    [OrderController]
+    [UserController]
+    [Api\\ProductController]
+  }
+
+  package "Models (Eloquent ORM)" {
+    [User]
+    [Product]
+    [Category]
+    [Order]
+    [OrderItem]
+  }
+}
+
+database "MySQL Database" {
+  [Tables]
+}
+
+views --> routes : HTTP Request (GET/POST/PUT/DELETE)
+routes --> Controllers : Route to Action
+Controllers --> Models : Data Manipulation (CRUD)
+Models --> [Tables] : SQL Queries
+Controllers --> views : Return View with Data
+[Api\\ProductController] --> Models : API Requests
+[Api\\ProductController] --> views : Return JSON Response
+
+@enduml

@@ -1,0 +1,25 @@
+@startuml
+actor User
+boundary "Katalog View" as view
+control "ProductController" as controller
+entity "Product Model" as model
+database "MySQL" as db
+
+User -> view : Akses /products
+view -> controller : index()
+controller -> model : all()
+model -> db : SELECT * FROM products
+db --> model : Hasil Data
+model --> controller : Collection of Products
+controller --> view : view('products.index', data)
+view --> User : Tampilkan Halaman Katalog
+
+User -> view : Klik Tambah Keranjang/Pesan
+view -> controller : store(request)
+controller -> model : create(data)
+model -> db : INSERT INTO orders/order_items
+db --> model : Success
+model --> controller : Order Object
+controller --> view : redirect()->back()->with('success')
+view --> User : Tampilkan Pesan Sukses
+@enduml

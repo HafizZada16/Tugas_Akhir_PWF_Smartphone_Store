@@ -1,0 +1,59 @@
+@startuml
+entity "users" {
+  * id : bigint <<generated>>
+  --
+  name : varchar
+  email : varchar
+  password : varchar
+  role : enum('admin', 'user')
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "categories" {
+  * id : bigint <<generated>>
+  --
+  name : varchar
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "products" {
+  * id : bigint <<generated>>
+  --
+  category_id : bigint <<FK>>
+  name : varchar
+  description : text
+  price : decimal
+  stock : integer
+  image : varchar
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "orders" {
+  * id : bigint <<generated>>
+  --
+  user_id : bigint <<FK>>
+  total_price : decimal
+  status : enum('pending', 'paid', 'shipped', 'completed', 'cancelled')
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+entity "order_items" {
+  * id : bigint <<generated>>
+  --
+  order_id : bigint <<FK>>
+  product_id : bigint <<FK>>
+  quantity : integer
+  price : decimal
+  created_at : timestamp
+  updated_at : timestamp
+}
+
+users ||--o{ orders
+categories ||--o{ products
+orders ||--o{ order_items
+products ||--o{ order_items
+@enduml

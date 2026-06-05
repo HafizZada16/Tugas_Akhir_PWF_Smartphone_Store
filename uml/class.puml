@@ -1,0 +1,53 @@
+@startuml
+class User {
+  +id: bigint
+  +name: string
+  +email: string
+  +password: string
+  +role: string (admin/user)
+  +orders(): HasMany
+}
+
+class Category {
+  +id: bigint
+  +name: string
+  +products(): HasMany
+}
+
+class Product {
+  +id: bigint
+  +category_id: bigint
+  +name: string
+  +description: text
+  +price: decimal
+  +stock: integer
+  +image: string
+  +category(): BelongsTo
+  +orderItems(): HasMany
+}
+
+class Order {
+  +id: bigint
+  +user_id: bigint
+  +total_price: decimal
+  +status: string
+  +user(): BelongsTo
+  +orderItems(): HasMany
+}
+
+class OrderItem {
+  +id: bigint
+  +order_id: bigint
+  +product_id: bigint
+  +quantity: integer
+  +price: decimal
+  +order(): BelongsTo
+  +product(): BelongsTo
+}
+
+User "1" -- "0..*" Order
+Category "1" -- "0..*" Product
+Product "1" -- "0..*" OrderItem
+Order "1" -- "1..*" OrderItem
+
+@enduml

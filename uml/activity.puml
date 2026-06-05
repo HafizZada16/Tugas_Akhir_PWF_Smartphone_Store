@@ -1,0 +1,32 @@
+@startuml
+|User|
+start
+:Buka Halaman Katalog HP;
+:Pilih Produk;
+if (Sudah Login?) then (ya)
+  :Klik "Beli Sekarang";
+  :Isi Form Pemesanan;
+  :Konfirmasi Pesanan;
+  |Sistem|
+  :Simpan Data Pesanan;
+  :Update Stok Produk;
+  |User|
+  :Melihat Status Pesanan;
+else (tidak)
+  :Diarahkan ke Halaman Login;
+  :Lakukan Login/Register;
+endif
+stop
+
+|Admin|
+start
+:Buka Admin Dashboard;
+:Pilih Menu Kelola Produk;
+:Tambah/Edit/Hapus Produk;
+|Sistem|
+:Validasi Input;
+:Update Database;
+|Admin|
+:Melihat Data Terbaru;
+stop
+@enduml
