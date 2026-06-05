@@ -57,22 +57,27 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($products as $product)
                 <div class="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col group border border-transparent hover:border-gray-100">
-                    <div class="relative pt-6 px-6 pb-2">
-                        <span class="absolute top-4 left-4 bg-orange-100 text-[#FF6900] text-xs font-bold px-2 py-1 rounded">Baru</span>
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-48 object-contain group-hover:scale-105 transition-transform duration-500">
-                    </div>
-                    <div class="p-6 text-center flex-1 flex flex-col">
-                        <h3 class="text-lg font-semibold text-gray-900 mb-1">{{ $product->name }}</h3>
-                        <p class="text-sm text-gray-500 mb-4 line-clamp-2">{{ $product->description }}</p>
-                        <div class="mt-auto">
-                            <span class="text-[#FF6900] font-bold text-xl block mb-4">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
-                            <div class="flex gap-2">
-                                <a href="{{ route('products.show', $product->id) }}" class="flex-1 bg-gray-50 text-gray-800 border border-gray-200 py-2 rounded-xl text-sm font-semibold hover:bg-gray-100 transition text-center">Detail</a>
-                                <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
-                                    @csrf
-                                    <button type="submit" class="w-full bg-[#FF6900] text-white py-2 rounded-xl text-sm font-semibold hover:bg-orange-600 transition shadow-lg shadow-orange-200">Beli</button>
-                                </form>
-                            </div>
+                    <a href="{{ route('products.show', $product->id) }}" class="flex-1 flex flex-col">
+                        <div class="relative pt-6 px-6 pb-2">
+                            <span class="absolute top-4 left-4 bg-orange-100 text-[#FF6900] text-xs font-bold px-2 py-1 rounded">Baru</span>
+                            <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-48 object-contain group-hover:scale-105 transition-transform duration-500">
+                        </div>
+                        <div class="px-6 text-center flex-1 flex flex-col justify-center">
+                            <h3 class="text-lg font-semibold text-gray-900 mb-1 group-hover:text-[#FF6900] transition">{{ $product->name }}</h3>
+                            <p class="text-sm text-gray-500 mb-2 line-clamp-2">{{ $product->description }}</p>
+                        </div>
+                    </a>
+                    <div class="p-6 text-center mt-auto">
+                        <span class="text-[#FF6900] font-bold text-xl block mb-4">Rp {{ number_format($product->price, 0, ',', '.') }}</span>
+                        <div class="flex gap-2">
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
+                                @csrf
+                                <button type="submit" class="w-full bg-orange-50 text-[#FF6900] border border-orange-200 py-2 rounded-xl text-sm font-bold hover:bg-orange-100 transition">Keranjang</button>
+                            </form>
+                            <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
+                                @csrf
+                                <button type="submit" class="w-full bg-[#FF6900] text-white py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition shadow-lg shadow-orange-200">Beli</button>
+                            </form>
                         </div>
                     </div>
                 </div>

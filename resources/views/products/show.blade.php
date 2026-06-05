@@ -23,9 +23,12 @@
                     </div>
 
                     <div class="flex gap-4">
-                        <button class="flex-1 bg-[#FF6900] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition shadow-lg shadow-orange-200">
-                            Beli Sekarang
-                        </button>
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
+                            @csrf
+                            <button type="submit" class="w-full bg-[#FF6900] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition shadow-lg shadow-orange-200">
+                                Beli Sekarang
+                            </button>
+                        </form>
                         <button class="px-6 py-4 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:border-[#FF6900] hover:text-[#FF6900] transition flex items-center justify-center">
                             <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
                         </button>

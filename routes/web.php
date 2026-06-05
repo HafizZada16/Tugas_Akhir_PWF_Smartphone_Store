@@ -31,7 +31,7 @@ Route::middleware(['auth', 'verified'])->group(function () {
 
     // Admin Orders
     Route::get('/admin/orders', [OrderController::class, 'adminOrders'])->name('admin.orders.index');
-    Route::patch('/admin/orders/{order}/ship', [OrderController::class, 'markAsShipped'])->name('admin.orders.ship');
+    Route::patch('/admin/orders/{order}/status', [OrderController::class, 'updateStatus'])->name('admin.orders.status');
 });
 
 Route::middleware('auth')->group(function () {

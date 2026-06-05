@@ -13,47 +13,62 @@ class OrderController extends Controller
 {
     public function checkout(Request $request)
     {
+        $request->validate([
+            'selected_items' => 'required|array|min:1',
+            'quantities' => 'required|array'
+        ], [
+            'selected_items.required' => 'Pilih setidaknya satu produk untuk di-checkout!'
+        ]);
+
         $cart = session()->get('cart', []);
         
-        if (empty($cart)) {
-            return redirect()->back()->withErrors(['error' => 'Keranjang Anda kosong!']);
-        }
-
         DB::beginTransaction();
         try {
-            // Hitung total harga
             $totalPrice = 0;
-            foreach ($cart as $item) {
-                $totalPrice += $item['price'] * $item['quantity'];
+            $itemsToCheckout = [];
+
+            // Validasi & Kalkulasi
+            foreach ($request->selected_items as $id) {
+                if (!isset($cart[$id])) continue;
+                
+                $product = Product::findOrFail($id);
+                $qty = (int) ($request->quantities[$id] ?? 1);
+
+                if ($qty < 1) throw new \Exception("Kuantitas tidak valid.");
+                if ($product->stock < $qty) throw new \Exception("Stok tidak mencukupi untuk " . $product->name);
+
+                $totalPrice += $product->price * $qty;
+                $itemsToCheckout[] = [
+                    'id' => $id,
+                    'price' => $product->price,
+                    'quantity' => $qty
+                ];
             }
 
-            // Buat pesanan
+            if(empty($itemsToCheckout)) throw new \Exception("Tidak ada produk valid yang dipilih.");
+
             $order = Order::create([
                 'user_id' => auth()->id(),
                 'total_price' => $totalPrice,
                 'status' => 'pending',
             ]);
 
-            // Simpan detail pesanan & kurangi stok
-            foreach ($cart as $id => $item) {
-                $product = Product::findOrFail($id);
-                
-                if ($product->stock < $item['quantity']) {
-                    throw new \Exception("Stok tidak mencukupi untuk " . $product->name);
-                }
-
+            foreach ($itemsToCheckout as $item) {
                 OrderItem::create([
                     'order_id' => $order->id,
-                    'product_id' => $id,
+                    'product_id' => $item['id'],
                     'quantity' => $item['quantity'],
                     'price' => $item['price'],
                 ]);
 
-                $product->decrement('stock', $item['quantity']);
+                Product::where('id', $item['id'])->decrement('stock', $item['quantity']);
+                
+                // Hapus produk yang di-checkout dari session keranjang
+                unset($cart[$item['id']]);
             }
 
             DB::commit();
-            session()->forget('cart');
+            session()->put('cart', $cart);
 
             return redirect()->route('orders.index')->with('success', 'Pesanan berhasil dibuat! Menunggu pengiriman.');
 
@@ -76,12 +91,16 @@ class OrderController extends Controller
         return view('admin.orders.index', compact('orders'));
     }
 
-    public function markAsShipped(Order $order)
+    public function updateStatus(Request $request, Order $order)
     {
         Gate::authorize('admin');
         
-        $order->update(['status' => 'shipped']);
+        $request->validate([
+            'status' => 'required|in:pending,paid,shipped,completed,cancelled'
+        ]);
+
+        $order->update(['status' => $request->status]);
         
-        return redirect()->back()->with('success', 'Status pesanan #' . $order->id . ' diubah menjadi Shipped.');
+        return redirect()->back()->with('success', 'Status pesanan #' . $order->id . ' berhasil diperbarui.');
     }
 }

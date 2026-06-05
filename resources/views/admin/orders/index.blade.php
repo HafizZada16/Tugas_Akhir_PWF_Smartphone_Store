@@ -52,17 +52,17 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                @if($order->status === 'pending')
-                                    <form action="{{ route('admin.orders.ship', $order->id) }}" method="POST" class="inline-block" onsubmit="return confirm('Tandai pesanan ini sudah dikirim?');">
-                                        @csrf
-                                        @method('PATCH')
-                                        <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-semibold hover:bg-blue-700 transition">
-                                            Kirim Pesanan
-                                        </button>
-                                    </form>
-                                @else
-                                    <span class="text-gray-400 text-xs italic">Sudah diproses</span>
-                                @endif
+                                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" class="inline-block">
+                                    @csrf
+                                    @method('PATCH')
+                                    <select name="status" onchange="this.form.submit()" class="text-xs font-semibold rounded-lg border-gray-300 focus:border-orange-500 focus:ring-orange-500 shadow-sm pr-8 py-1.5 bg-gray-50 hover:bg-white transition cursor-pointer">
+                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
+                                        <option value="paid" {{ $order->status === 'paid' ? 'selected' : '' }}>Paid</option>
+                                        <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
+                                        <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
+                                        <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
+                                    </select>
+                                </form>
                             </td>
                         </tr>
                     @empty
