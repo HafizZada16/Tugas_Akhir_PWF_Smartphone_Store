@@ -21,7 +21,7 @@
             <div class="flex justify-between h-16">
                 <div class="flex items-center">
                     <!-- Logo -->
-                    <a href="{{ route('home') }}" class="flex items-center gap-2">
+                    <a href="{{ route('landing') }}" class="flex items-center gap-2">
                         <div class="w-10 h-10 bg-[#FF6900] text-white flex items-center justify-center rounded-xl font-bold text-xl">
                             mi
                         </div>

@@ -7,7 +7,11 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\CartController;
 use App\Http\Controllers\OrderController;
 
-Route::get('/', [ProductController::class, 'index'])->name('home');
+Route::get('/', function () {
+    return view('welcome');
+})->name('landing');
+
+Route::get('/store', [ProductController::class, 'index'])->name('home');
 Route::resource('products', ProductController::class)->except(['index']);
 
 // Cart Routes
