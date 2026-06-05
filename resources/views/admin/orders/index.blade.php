@@ -44,11 +44,17 @@
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap">
                                 @if($order->status === 'pending')
-                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-md bg-yellow-100 text-yellow-800 border border-yellow-200">Pending</span>
+                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-md bg-yellow-100 text-yellow-800 border border-yellow-200">Pending</span>
+                                @elseif($order->status === 'paid')
+                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-md bg-purple-100 text-purple-800 border border-purple-200">Paid</span>
                                 @elseif($order->status === 'shipped')
-                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-md bg-blue-100 text-blue-800 border border-blue-200">Shipped</span>
+                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-md bg-blue-100 text-blue-800 border border-blue-200">Shipped</span>
+                                @elseif($order->status === 'completed')
+                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-md bg-green-100 text-green-800 border border-green-200">Completed</span>
+                                @elseif($order->status === 'cancelled')
+                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-md bg-red-100 text-red-800 border border-red-200">Cancelled</span>
                                 @else
-                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-semibold rounded-md bg-gray-100 text-gray-800 border border-gray-200">{{ ucfirst($order->status) }}</span>
+                                    <span class="px-2.5 py-1 inline-flex text-xs leading-5 font-bold rounded-md bg-gray-100 text-gray-800 border border-gray-200">{{ ucfirst($order->status) }}</span>
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">

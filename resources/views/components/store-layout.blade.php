@@ -100,7 +100,7 @@
     <!-- Footer -->
     <footer class="bg-white border-t border-gray-200 mt-12 py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
-            &copy; {{ date('Y') }} Tugas Akhir PWF - HafizZada16. All rights reserved.
+            &copy; {{ date('Y') }} Tugas Akhir PWF - H16. All rights reserved.
         </div>
     </footer>
 </body>

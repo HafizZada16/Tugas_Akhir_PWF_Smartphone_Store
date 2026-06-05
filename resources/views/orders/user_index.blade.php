@@ -36,10 +36,14 @@
                                 <span class="text-sm text-gray-500 block mb-1">Status</span>
                                 @if($order->status === 'pending')
                                     <span class="px-3 py-1 bg-yellow-100 text-yellow-800 rounded-full text-xs font-bold">Menunggu Pengiriman</span>
+                                @elseif($order->status === 'paid')
+                                    <span class="px-3 py-1 bg-purple-100 text-purple-800 rounded-full text-xs font-bold">Sudah Dibayar</span>
                                 @elseif($order->status === 'shipped')
                                     <span class="px-3 py-1 bg-blue-100 text-blue-800 rounded-full text-xs font-bold">Sedang Dikirim</span>
                                 @elseif($order->status === 'completed')
                                     <span class="px-3 py-1 bg-green-100 text-green-800 rounded-full text-xs font-bold">Selesai</span>
+                                @elseif($order->status === 'cancelled')
+                                    <span class="px-3 py-1 bg-red-100 text-red-800 rounded-full text-xs font-bold">Dibatalkan</span>
                                 @else
                                     <span class="px-3 py-1 bg-gray-100 text-gray-800 rounded-full text-xs font-bold">{{ ucfirst($order->status) }}</span>
                                 @endif
