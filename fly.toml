@@ -1,15 +1,37 @@
-app = "tugas-akhir-pwf-smartphone-store"
-primary_region = "sin"
+# fly.toml app configuration file generated for tugas-akhir-pwf-smartphone-store on 2026-06-06T05:40:34Z
+#
+# See https://fly.io/docs/reference/configuration/ for information about how to use this file.
+#
+
+app = 'tugas-akhir-pwf-smartphone-store'
+primary_region = 'sin'
+console_command = 'php /var/www/html/artisan tinker'
+
+[build]
+  [build.args]
+    NODE_VERSION = '18'
+    PHP_VERSION = '8.3'
+
 [env]
-  PORT = "8080"
-  APP_ENV = "production"
-  APP_DEBUG = "false"
-  LOG_CHANNEL = "stderr"
-  SESSION_DRIVER = "cookie"
+  APP_DEBUG = 'false'
+  APP_ENV = 'production'
+  LOG_CHANNEL = 'stderr'
+  LOG_LEVEL = 'info'
+  LOG_STDERR_FORMATTER = 'Monolog\Formatter\JsonFormatter'
+  PORT = '8080'
+  SESSION_DRIVER = 'cookie'
+  SESSION_SECURE_COOKIE = 'true'
+
 [http_service]
   internal_port = 8080
   force_https = true
-  auto_stop_machines = true
+  auto_stop_machines = 'stop'
   auto_start_machines = true
   min_machines_running = 0
-  processes = ["app"]
+  processes = ['app']
+
+[[vm]]
+  memory = '1gb'
+  cpu_kind = 'shared'
+  cpus = 1
+  memory_mb = 1024
