@@ -1,15 +1,11 @@
 app = "tugas-akhir-pwf-smartphone-store"
 primary_region = "sin"
-
-[build]
-
 [env]
   PORT = "8080"
   APP_ENV = "production"
   APP_DEBUG = "false"
   LOG_CHANNEL = "stderr"
   SESSION_DRIVER = "cookie"
-
 [http_service]
   internal_port = 8080
   force_https = true
