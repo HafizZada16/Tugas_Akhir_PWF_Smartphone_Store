@@ -36,9 +36,12 @@
                                 Beli Sekarang
                             </button>
                         </form>
-                        <button class="px-6 py-4 rounded-xl border-2 border-gray-200 text-gray-600 font-bold hover:border-[#FF6900] hover:text-[#FF6900] transition flex items-center justify-center">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
-                        </button>
+                        <form action="{{ route('cart.add', $product->id) }}" method="POST">
+                            @csrf
+                            <button type="submit" {{ $product->status === 'Habis' ? 'disabled' : '' }} class="px-6 py-4 h-full rounded-xl border-2 border-gray-200 text-gray-600 font-bold transition flex items-center justify-center {{ $product->status === 'Habis' ? 'bg-gray-100 cursor-not-allowed opacity-50' : 'hover:border-[#FF6900] hover:text-[#FF6900]' }}">
+                                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z"></path></svg>
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>
