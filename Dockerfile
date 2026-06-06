@@ -7,6 +7,7 @@ COPY . /app
 RUN composer install --optimize-autoloader --no-dev
 RUN npm install
 RUN npm run build
+RUN mkdir -p storage/framework/views storage/framework/cache storage/framework/sessions storage/logs bootstrap/cache
 RUN chmod -R 777 storage bootstrap/cache
 EXPOSE 8080
 CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
