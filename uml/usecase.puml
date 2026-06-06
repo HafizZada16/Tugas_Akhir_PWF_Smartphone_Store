@@ -2,32 +2,59 @@
 left to right direction
 skinparam packageStyle rectangle
 
-actor "Guest" as guest
+actor "Guest (Belum Login)" as guest
 actor "User (Pelanggan)" as user
 actor "Admin" as admin
 
-rectangle "Sistem E-Commerce HP" {
-  usecase "Melihat Katalog Produk" as UC1
-  usecase "Melihat Detail Produk" as UC2
-  usecase "Login & Register" as UC3
-  usecase "Menambah ke Keranjang/Pesan" as UC4
-  usecase "Mengelola Profil" as UC5
-  usecase "Mengelola Data Produk (CRUD)" as UC6
-  usecase "Mengelola Kategori Produk" as UC7
-  usecase "Melihat Pesanan Masuk" as UC8
+rectangle "Fitur E-Commerce HP" {
+  ' Fitur Umum (Tamu)
+  usecase "Akses Landing Page ('Mulai Belanja')" as UC_Landing
+  usecase "Akses Katalog Produk ('Katalog')" as UC_Katalog
+  usecase "Akses Detail Produk ('Klik Card')" as UC_Detail
+  usecase "Tambah ke Keranjang ('Beli')" as UC_AddCart
+  usecase "Akses Keranjang ('Icon Cart')" as UC_ViewCart
+  usecase "Login & Register ('Log in')" as UC_Auth
+  
+  ' Fitur Khusus User (Pelanggan)
+  usecase "Melakukan Checkout ('Checkout')" as UC_Checkout
+  usecase "Melihat Riwayat Pesanan ('Dashboard')" as UC_History
+  usecase "Mengelola Profil ('Profile')" as UC_Profile
+  usecase "Keluar ('Log Out')" as UC_Logout
+  
+  ' Fitur Khusus Admin
+  usecase "Akses Admin Dashboard" as UC_AdminDash
+  usecase "Kelola Produk (Tambah/Edit/Hapus)" as UC_ManageProduct
+  usecase "Kelola Kategori Produk" as UC_ManageCat
+  usecase "Kelola Pesanan (Ubah Status)" as UC_ManageOrder
+  usecase "Akses Dokumentasi API" as UC_ApiDocs
 }
 
-guest --> UC1
-guest --> UC2
-guest --> UC3
+' --- Pemetaan Guest ---
+guest --> UC_Landing
+guest --> UC_Katalog
+guest --> UC_Detail
+guest --> UC_AddCart
+guest --> UC_ViewCart
+guest --> UC_Auth
 
-user --> UC1
-user --> UC2
-user --> UC4
-user --> UC5
+' --- Pemetaan User (Pelanggan) ---
+user --> UC_Landing
+user --> UC_Katalog
+user --> UC_Detail
+user --> UC_AddCart
+user --> UC_ViewCart
+user --> UC_Checkout
+user --> UC_History
+user --> UC_Profile
+user --> UC_Logout
 
-admin --> UC6
-admin --> UC7
-admin --> UC8
+' --- Pemetaan Admin ---
+admin --> UC_AdminDash
+admin --> UC_ManageProduct
+admin --> UC_ManageCat
+admin --> UC_ManageOrder
+admin --> UC_ApiDocs
+admin --> UC_Profile
+admin --> UC_Logout
 
 @enduml

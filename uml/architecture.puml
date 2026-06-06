@@ -9,8 +9,10 @@ node "Laravel Web Server (Apache/Nginx)" {
   package "Controllers" {
     [ProductController]
     [OrderController]
+    [CartController]
     [UserController]
     [Api\\ProductController]
+    [Api\\AuthController]
   }
 
   package "Models (Eloquent ORM)" {

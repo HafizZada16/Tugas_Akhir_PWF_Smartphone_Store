@@ -2,7 +2,7 @@
     <x-slot name="header">Tambah Produk Baru</x-slot>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-4xl mx-auto">
-        <form action="{{ route('products.store') }}" method="POST">
+        <form action="{{ route('products.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
             
             <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -53,9 +53,9 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                             </div>
-                            <input type="url" name="image" class="w-full pl-10 rounded-xl border-gray-300 focus:border-orange-500 focus:ring-orange-500 shadow-sm text-sm" placeholder="https://example.com/image.png">
+                            <input type="file" name="image" accept="image/*" class="w-full pl-10 rounded-xl border-gray-300 focus:border-orange-500 focus:ring-orange-500 shadow-sm text-sm p-1.5 bg-white">
                         </div>
-                        <p class="text-xs text-gray-500 mt-2">Bisa menggunakan link gambar dari google atau mi.co.id</p>
+                        <p class="text-xs text-gray-500 mt-2">Format yang didukung: JPG, PNG, WEBP (Max 2MB)</p>
                         @error('image') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror
                     </div>
                 </div>

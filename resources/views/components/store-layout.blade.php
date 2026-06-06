@@ -14,7 +14,7 @@
     <!-- Scripts -->
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
-<body class="font-sans antialiased bg-gray-50 text-gray-800">
+<body class="font-sans antialiased bg-gray-50 text-gray-800 flex flex-col min-h-screen">
     <!-- Topbar/Navbar -->
     <nav class="bg-white border-b border-gray-100 sticky top-0 z-50">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -93,12 +93,12 @@
     </nav>
 
     <!-- Page Content -->
-    <main>
+    <main class="flex-grow">
         {{ $slot }}
     </main>
 
     <!-- Footer -->
-    <footer class="bg-white border-t border-gray-200 mt-12 py-8">
+    <footer class="bg-white border-t border-gray-200 mt-auto py-8">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center text-sm text-gray-500">
             &copy; {{ date('Y') }} Tugas Akhir PWF - H16. All rights reserved.
         </div>

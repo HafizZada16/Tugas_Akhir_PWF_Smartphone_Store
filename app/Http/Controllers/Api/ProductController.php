@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Facades\Http;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -22,14 +24,19 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|url'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $product = Product::create($validator->validated());
+        $validated = $validator->validated();
+        if ($request->hasFile('image')) {
+            $validated['image'] = $this->uploadToSupabase($request->file('image'));
+        }
+
+        $product = Product::create($validated);
         return response()->json($product, 201);
     }
 
@@ -46,15 +53,40 @@ class ProductController extends Controller
             'description' => 'required|string',
             'price' => 'required|numeric|min:0',
             'stock' => 'required|integer|min:0',
-            'image' => 'nullable|url'
+            'image' => 'nullable|image|mimes:jpeg,png,jpg,webp|max:2048'
         ]);
 
         if ($validator->fails()) {
             return response()->json($validator->errors(), 422);
         }
 
-        $product->update($validator->validated());
+        $validated = $validator->validated();
+        if ($request->hasFile('image')) {
+            $validated['image'] = $this->uploadToSupabase($request->file('image'));
+        } else {
+            unset($validated['image']); // Don't override if no new image
+        }
+
+        $product->update($validated);
         return response()->json($product);
+    }
+
+    private function uploadToSupabase($file)
+    {
+        $fileName = Str::uuid() . '.' . $file->getClientOriginalExtension();
+        $bucket = 'products';
+        
+        $response = Http::withHeaders([
+            'Authorization' => 'Bearer ' . env('SUPABASE_KEY', ''),
+            'apikey' => env('SUPABASE_KEY', ''),
+        ])->withBody(file_get_contents($file->getRealPath()), $file->getMimeType())
+        ->post(env('SUPABASE_URL') . "/storage/v1/object/$bucket/$fileName");
+        
+        if ($response->successful()) {
+            return env('SUPABASE_URL') . "/storage/v1/object/public/$bucket/$fileName";
+        }
+        
+        throw new \Exception('Gagal upload gambar ke Supabase: ' . $response->body());
     }
 
     public function destroy(Product $product)

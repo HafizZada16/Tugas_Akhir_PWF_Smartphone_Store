@@ -44,7 +44,7 @@
 
         <div class="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full">
             <div class="max-w-2xl">
-                <span class="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-[#FF6900] text-sm font-bold mb-6 border border-orange-500/30 backdrop-blur-sm">Tugas Akhir Kelompok H16</span>
+                <span class="inline-block py-1 px-3 rounded-full bg-orange-500/20 text-[#FF6900] text-sm font-bold mb-6 border border-orange-500/30 backdrop-blur-sm">Tugas Akhir Kelompok </span>
                 <h1 class="text-5xl md:text-7xl font-black text-white tracking-tight leading-tight mb-6">
                     Temukan Smartphone <br><span class="text-transparent bg-clip-text bg-gradient-to-r from-[#FF6900] to-orange-400">Impianmu.</span>
                 </h1>
@@ -104,7 +104,7 @@
     <footer class="bg-gray-50 border-t border-gray-200 py-12">
         <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
             <div class="w-12 h-12 bg-[#FF6900] text-white flex items-center justify-center rounded-xl font-bold text-2xl mx-auto mb-6">mi</div>
-            <p class="text-gray-500 font-medium">Tugas Akhir PWF - Kelompok H16</p>
+            <p class="text-gray-500 font-medium">Tugas Akhir PWF - Kelompok</p>
             <p class="text-sm text-gray-400 mt-2">&copy; {{ date('Y') }} All rights reserved.</p>
         </div>
     </footer>

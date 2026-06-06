@@ -58,17 +58,24 @@
                                 @endif
                             </td>
                             <td class="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                                <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" class="inline-block">
-                                    @csrf
-                                    @method('PATCH')
-                                    <select name="status" onchange="this.form.submit()" class="text-xs font-semibold rounded-lg border-gray-300 focus:border-orange-500 focus:ring-orange-500 shadow-sm pr-8 py-1.5 bg-gray-50 hover:bg-white transition cursor-pointer">
-                                        <option value="pending" {{ $order->status === 'pending' ? 'selected' : '' }}>Pending</option>
-                                        <option value="paid" {{ $order->status === 'paid' ? 'selected' : '' }}>Paid</option>
-                                        <option value="shipped" {{ $order->status === 'shipped' ? 'selected' : '' }}>Shipped</option>
-                                        <option value="completed" {{ $order->status === 'completed' ? 'selected' : '' }}>Completed</option>
-                                        <option value="cancelled" {{ $order->status === 'cancelled' ? 'selected' : '' }}>Cancelled</option>
-                                    </select>
-                                </form>
+                                @if($order->status !== 'completed' && $order->status !== 'cancelled')
+                                    <form action="{{ route('admin.orders.status', $order->id) }}" method="POST" class="inline-block">
+                                        @csrf
+                                        @method('PATCH')
+                                        @if($order->status === 'pending')
+                                            <input type="hidden" name="status" value="paid">
+                                            <button type="submit" class="bg-purple-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-purple-700 transition">Terima Pembayaran</button>
+                                        @elseif($order->status === 'paid')
+                                            <input type="hidden" name="status" value="shipped">
+                                            <button type="submit" class="bg-blue-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-blue-700 transition">Kirim Barang</button>
+                                        @elseif($order->status === 'shipped')
+                                            <input type="hidden" name="status" value="completed">
+                                            <button type="submit" class="bg-green-600 text-white px-3 py-1.5 rounded-lg text-xs font-bold hover:bg-green-700 transition">Selesaikan Pesanan</button>
+                                        @endif
+                                    </form>
+                                @else
+                                    <span class="text-xs text-gray-400 font-semibold">-</span>
+                                @endif
                             </td>
                         </tr>
                     @empty

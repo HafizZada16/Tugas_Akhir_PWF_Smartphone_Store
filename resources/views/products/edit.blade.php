@@ -2,7 +2,7 @@
     <x-slot name="header">Edit Produk: {{ $product->name }}</x-slot>
 
     <div class="bg-white rounded-2xl shadow-sm border border-gray-100 p-8 max-w-4xl mx-auto">
-        <form action="{{ route('products.update', $product->id) }}" method="POST">
+        <form action="{{ route('products.update', $product->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
             @method('PUT')
             
@@ -53,11 +53,12 @@
                             <div class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                                 <svg class="h-5 w-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                             </div>
-                            <input type="url" name="image" value="{{ old('image', $product->image) }}" class="w-full pl-10 rounded-xl border-gray-300 focus:border-orange-500 focus:ring-orange-500 shadow-sm text-sm">
+                            <input type="file" name="image" accept="image/*" class="w-full pl-10 rounded-xl border-gray-300 focus:border-orange-500 focus:ring-orange-500 shadow-sm text-sm p-1.5 bg-white">
                         </div>
+                        <p class="text-xs text-gray-500 mt-2">Biarkan kosong jika tidak ingin mengubah gambar.</p>
                         @if($product->image)
                             <div class="mt-3 p-2 border border-gray-200 rounded-lg bg-gray-50 flex justify-center">
-                                <img src="{{ $product->image }}" alt="Preview" class="h-24 object-contain">
+                                <img src="{{ filter_var($product->image, FILTER_VALIDATE_URL) ? $product->image : asset('storage/' . $product->image) }}" alt="Preview" class="h-24 object-contain">
                             </div>
                         @endif
                         @error('image') <span class="text-red-500 text-xs mt-1">{{ $message }}</span> @enderror

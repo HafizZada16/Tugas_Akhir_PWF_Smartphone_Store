@@ -16,16 +16,23 @@
                     <div class="bg-gray-50 p-6 rounded-2xl mb-8 border border-gray-100">
                         <div class="text-sm text-gray-500 mb-1">Harga Resmi</div>
                         <div class="text-3xl font-bold text-[#FF6900]">Rp {{ number_format($product->price, 0, ',', '.') }}</div>
-                        <div class="mt-4 flex items-center gap-2 text-sm text-gray-600">
-                            <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
-                            Stok Tersedia ({{ $product->stock }} unit)
-                        </div>
+                        @if($product->status === 'Tersedia')
+                            <div class="mt-4 flex items-center gap-2 text-sm text-green-600 font-medium">
+                                <svg class="w-5 h-5 text-green-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                                Tersedia ({{ $product->stock }} unit)
+                            </div>
+                        @else
+                            <div class="mt-4 flex items-center gap-2 text-sm text-red-600 font-medium">
+                                <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                                Stok Habis
+                            </div>
+                        @endif
                     </div>
 
                     <div class="flex gap-4">
                         <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
                             @csrf
-                            <button type="submit" class="w-full bg-[#FF6900] text-white py-4 rounded-xl font-bold text-lg hover:bg-orange-600 transition shadow-lg shadow-orange-200">
+                            <button type="submit" {{ $product->status === 'Habis' ? 'disabled' : '' }} class="w-full {{ $product->status === 'Habis' ? 'bg-gray-400 cursor-not-allowed' : 'bg-[#FF6900] hover:bg-orange-600 shadow-orange-200' }} text-white py-4 rounded-xl font-bold text-lg transition shadow-lg">
                                 Beli Sekarang
                             </button>
                         </form>

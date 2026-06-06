@@ -59,7 +59,11 @@
                 <div class="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col group border border-transparent hover:border-gray-100">
                     <a href="{{ route('products.show', $product->id) }}" class="flex-1 flex flex-col">
                         <div class="relative pt-6 px-6 pb-2">
-                            <span class="absolute top-4 left-4 bg-orange-100 text-[#FF6900] text-xs font-bold px-2 py-1 rounded">Baru</span>
+                            @if($product->status === 'Tersedia')
+                                <span class="absolute top-4 left-4 bg-green-100 text-green-700 text-xs font-bold px-2 py-1 rounded">Tersedia ({{ $product->stock }})</span>
+                            @else
+                                <span class="absolute top-4 left-4 bg-red-100 text-red-700 text-xs font-bold px-2 py-1 rounded">Habis</span>
+                            @endif
                             <img src="{{ $product->image }}" alt="{{ $product->name }}" class="w-full h-48 object-contain group-hover:scale-105 transition-transform duration-500">
                         </div>
                         <div class="px-6 text-center flex-1 flex flex-col justify-center">
@@ -72,11 +76,11 @@
                         <div class="flex gap-2">
                             <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
                                 @csrf
-                                <button type="submit" class="w-full bg-orange-50 text-[#FF6900] border border-orange-200 py-2 rounded-xl text-sm font-bold hover:bg-orange-100 transition">Keranjang</button>
+                                <button type="submit" {{ $product->status === 'Habis' ? 'disabled' : '' }} class="w-full {{ $product->status === 'Habis' ? 'bg-gray-200 text-gray-500 border-gray-200 cursor-not-allowed' : 'bg-orange-50 text-[#FF6900] border-orange-200 hover:bg-orange-100' }} border py-2 rounded-xl text-sm font-bold transition">Keranjang</button>
                             </form>
                             <form action="{{ route('cart.add', $product->id) }}" method="POST" class="flex-1">
                                 @csrf
-                                <button type="submit" class="w-full bg-[#FF6900] text-white py-2 rounded-xl text-sm font-bold hover:bg-orange-600 transition shadow-lg shadow-orange-200">Beli</button>
+                                <button type="submit" {{ $product->status === 'Habis' ? 'disabled' : '' }} class="w-full {{ $product->status === 'Habis' ? 'bg-gray-400 cursor-not-allowed text-white' : 'bg-[#FF6900] text-white hover:bg-orange-600 shadow-orange-200 shadow-lg' }} py-2 rounded-xl text-sm font-bold transition">Beli</button>
                             </form>
                         </div>
                     </div>
