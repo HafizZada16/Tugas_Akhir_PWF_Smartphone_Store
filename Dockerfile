@@ -1,49 +1,37 @@
-# Menggunakan base image PHP 8.3
 FROM php:8.3-cli
 
-# Install dependensi sistem yang dibutuhkan Laravel & SQLite
+# Install dependensi sistem, PostgreSQL driver, dan Node.js
 RUN apt-get update && apt-get install -y \
-    git \
-    curl \
-    libpng-dev \
-    libonig-dev \
-    libxml2-dev \
-    zip \
+    libpq-dev \
     unzip \
+    curl \
     nodejs \
-    npm \
-    sqlite3 \
-    libsqlite3-dev
+    npm
 
-# Bersihkan cache apt
-RUN apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install ekstensi PHP (termasuk pdo_sqlite untuk database kita)
-RUN docker-php-ext-install pdo_mysql mbstring exif pcntl bcmath gd pdo_sqlite
+# Install ekstensi PHP untuk PostgreSQL
+RUN docker-php-ext-install pdo pdo_pgsql
 
 # Install Composer
 COPY --from=composer:latest /usr/bin/composer /usr/bin/composer
 
-# Atur working directory di dalam container
+# Set working directory
 WORKDIR /app
 
-# Salin semua file proyek ke dalam container
-COPY . .
+# Copy seluruh file project
+COPY . /app
 
-# Install dependensi PHP via Composer
-RUN composer install --no-interaction --optimize-autoloader
+# Install dependensi PHP
+RUN composer install --optimize-autoloader --no-dev
 
-# Install dependensi frontend (Tailwind/Vite) lalu build
+# Install dependensi Node.js & Compile CSS/JS (Vite)
 RUN npm install
 RUN npm run build
 
-# Atur hak akses folder agar Laravel bisa menulis log/cache
-RUN chown -R www-data:www-data /app \
-    && chmod -R 775 /app/storage \
-    && chmod -R 775 /app/bootstrap/cache
+# Beri akses folder cache dan storage
+RUN chmod -R 777 storage bootstrap/cache
 
-# Expose port 8000 untuk diakses dari luar container
-EXPOSE 8000
+# Buka port 8080
+EXPOSE 8080
 
-# Perintah default saat container dijalankan (menjalankan server Laravel)
-CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8000"]
+# Jalankan server bawaan Laravel
+CMD ["php", "artisan", "serve", "--host=0.0.0.0", "--port=8080"]
