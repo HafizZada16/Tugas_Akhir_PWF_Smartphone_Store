@@ -1,17 +1,23 @@
 @startuml
 |User|
 start
+:Buka Landing Page;
+:Klik "Ke Toko" / "Mulai Belanja";
 :Buka Halaman Katalog HP;
 :Pilih Produk;
 if (Sudah Login?) then (ya)
-  :Klik "Beli Sekarang";
-  :Isi Form Pemesanan;
-  :Konfirmasi Pesanan;
+  :Klik "Keranjang" atau "Beli";
+  |Sistem|
+  :Masukkan Produk ke Keranjang;
+  |User|
+  :Buka Halaman Keranjang;
+  :Pilih Produk dengan Checkbox & Atur Kuantitas;
+  :Klik "Checkout";
   |Sistem|
   :Simpan Data Pesanan;
-  :Update Stok Produk;
+  :Hapus Produk Terpilih dari Keranjang;
   |User|
-  :Melihat Status Pesanan;
+  :Melihat Status Pesanan (Pending);
 else (tidak)
   :Diarahkan ke Halaman Login;
   :Lakukan Login/Register;
@@ -21,12 +27,16 @@ stop
 |Admin|
 start
 :Buka Admin Dashboard;
-:Pilih Menu Kelola Produk;
-:Tambah/Edit/Hapus Produk;
+fork
+  :Pilih Menu Kelola Produk;
+  :Tambah/Edit/Hapus Produk;
+fork again
+  :Pilih Menu Kelola Pesanan;
+  :Ubah Status Pesanan via Dropdown;
+end fork
 |Sistem|
-:Validasi Input;
-:Update Database;
+:Validasi Input & Update Database;
 |Admin|
-:Melihat Data Terbaru;
+:Melihat Perubahan Data;
 stop
 @enduml
