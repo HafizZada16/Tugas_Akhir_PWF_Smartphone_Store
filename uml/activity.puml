@@ -5,14 +5,14 @@ start
 :Klik "Ke Toko" / "Mulai Belanja";
 :Buka Halaman Katalog HP;
 :Pilih Produk;
+:Klik "Keranjang" atau "Beli";
+|Sistem|
+:Masukkan Produk ke Keranjang (Session);
+|User|
+:Buka Halaman Keranjang;
+:Pilih Produk dengan Checkbox & Atur Kuantitas;
+:Klik "Checkout";
 if (Sudah Login?) then (ya)
-  :Klik "Keranjang" atau "Beli";
-  |Sistem|
-  :Masukkan Produk ke Keranjang;
-  |User|
-  :Buka Halaman Keranjang;
-  :Pilih Produk dengan Checkbox & Atur Kuantitas;
-  :Klik "Checkout";
   |Sistem|
   :Simpan Data Pesanan;
   :Hapus Produk Terpilih dari Keranjang;
@@ -21,6 +21,7 @@ if (Sudah Login?) then (ya)
 else (tidak)
   :Diarahkan ke Halaman Login;
   :Lakukan Login/Register;
+  :Diarahkan kembali ke Keranjang;
 endif
 stop
 
