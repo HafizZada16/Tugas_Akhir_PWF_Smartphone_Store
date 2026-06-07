@@ -15,22 +15,22 @@
             </div>
         @endif
 
-        <div class="flex flex-col md:flex-row gap-8">
+        <div class="flex flex-col md:flex-row gap-8" x-data="{ activeCategory: '{{ request('category', 'all') }}' }">
             <!-- Sidebar Kategori -->
             <aside class="w-full md:w-64 flex-shrink-0">
                 <div class="bg-white p-6 rounded-2xl border border-gray-100 shadow-sm sticky top-24">
                     <h3 class="text-lg font-bold text-gray-900 mb-4">Kategori Produk</h3>
                     <ul class="space-y-2">
                         <li>
-                            <a href="{{ route('home') }}" class="block px-4 py-2 rounded-lg transition {{ !request('category') ? 'bg-orange-50 text-[#FF6900] font-bold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                            <button @click.prevent="activeCategory = 'all'" :class="activeCategory === 'all' ? 'bg-orange-50 text-[#FF6900] font-bold w-full text-left' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full text-left'" class="block px-4 py-2 rounded-lg transition">
                                 Semua Kategori
-                            </a>
+                            </button>
                         </li>
                         @foreach($categories as $category)
                             <li>
-                                <a href="{{ route('home', ['category' => $category->id]) }}" class="block px-4 py-2 rounded-lg transition {{ request('category') == $category->id ? 'bg-orange-50 text-[#FF6900] font-bold' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900' }}">
+                                <button @click.prevent="activeCategory = '{{ $category->id }}'" :class="activeCategory === '{{ $category->id }}' ? 'bg-orange-50 text-[#FF6900] font-bold w-full text-left' : 'text-gray-600 hover:bg-gray-50 hover:text-gray-900 w-full text-left'" class="block px-4 py-2 rounded-lg transition">
                                     {{ $category->name }}
-                                </a>
+                                </button>
                             </li>
                         @endforeach
                     </ul>
@@ -42,11 +42,10 @@
                 <!-- Filter Header -->
                 <div class="flex justify-between items-center mb-6 pb-4 border-b border-gray-200">
                     <h2 class="text-xl font-bold text-gray-800">
-                        @if(request('category'))
-                            Menampilkan: {{ $categories->firstWhere('id', request('category'))->name ?? 'Kategori' }}
-                        @else
-                            Semua Produk
-                        @endif
+                        <span x-show="activeCategory === 'all'">Semua Produk</span>
+                        @foreach($categories as $category)
+                            <span x-show="activeCategory === '{{ $category->id }}'" style="display: none;">Menampilkan: {{ $category->name }}</span>
+                        @endforeach
                     </h2>
                     <div class="text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded-full font-medium">
                         {{ $products->count() }} produk
@@ -56,7 +55,7 @@
                 <!-- Product Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
             @foreach($products as $product)
-                <div class="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-1 flex flex-col group border border-transparent hover:border-gray-100">
+                <div x-show="activeCategory === 'all' || activeCategory === '{{ $product->category_id }}'" x-transition:enter="transition ease-out duration-300" x-transition:enter-start="opacity-0 transform scale-95" x-transition:enter-end="opacity-100 transform scale-100" class="bg-white rounded-2xl overflow-hidden hover:shadow-2xl transition-all duration-300 transform flex flex-col group border border-transparent hover:border-gray-100" style="display: none;">
                     <a href="{{ route('products.show', $product->id) }}" class="flex-1 flex flex-col">
                         <div class="relative pt-6 px-6 pb-2">
                             @if($product->status === 'Tersedia')

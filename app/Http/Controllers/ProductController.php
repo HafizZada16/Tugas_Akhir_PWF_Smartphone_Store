@@ -10,6 +10,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\Str;
+use Inertia\Inertia;
 
 class ProductController extends Controller
 {
@@ -23,7 +24,10 @@ class ProductController extends Controller
         }
         
         $products = $query->get();
-        return view('products.index', compact('products', 'categories'));
+        return Inertia::render('Products/Index', [
+            'products' => $products,
+            'categories' => $categories
+        ]);
     }
 
     public function create()
