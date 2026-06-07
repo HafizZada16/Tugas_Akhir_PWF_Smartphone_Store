@@ -80,14 +80,14 @@ export default function Index({ products, categories, flash }) {
                                 ))}
                             </h2>
                             <div className="text-gray-500 text-sm bg-gray-100 px-3 py-1 rounded-full font-medium">
-                                {products.filter(p => activeCategory === 'all' || p.category_id.toString() === activeCategory).length} produk
+                                {products.filter(p => activeCategory === 'all' || p.category_id?.toString() === activeCategory).length} produk
                             </div>
                         </div>
 
                         {/* Product Grid */}
                         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                             {products.map(product => {
-                                const isVisible = activeCategory === 'all' || product.category_id.toString() === activeCategory;
+                                const isVisible = activeCategory === 'all' || product.category_id?.toString() === activeCategory;
                                 
                                 if (!isVisible) return null;
 
@@ -135,7 +135,7 @@ export default function Index({ products, categories, flash }) {
                             })}
                         </div>
                         
-                        {products.filter(p => activeCategory === 'all' || p.category_id.toString() === activeCategory).length === 0 && (
+                        {products.filter(p => activeCategory === 'all' || p.category_id?.toString() === activeCategory).length === 0 && (
                             <div className="text-center py-20 bg-white rounded-2xl border border-gray-100 shadow-sm mt-6">
                                 <svg className="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" aria-hidden="true">
                                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 13h6m-3-3v6m-9 1V7a2 2 0 012-2h6l2 2h6a2 2 0 012 2v8a2 2 0 01-2 2H5a2 2 0 01-2-2z" />

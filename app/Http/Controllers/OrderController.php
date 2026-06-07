@@ -8,6 +8,7 @@ use App\Models\Product;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Gate;
+use Inertia\Inertia;
 
 class OrderController extends Controller
 {
@@ -81,14 +82,18 @@ class OrderController extends Controller
     public function userOrders()
     {
         $orders = Order::where('user_id', auth()->id())->with('items.product')->latest()->get();
-        return view('orders.user_index', compact('orders'));
+        return Inertia::render('Orders/UserIndex', [
+            'orders' => $orders
+        ]);
     }
 
     public function adminOrders()
     {
         Gate::authorize('admin');
         $orders = Order::with(['user', 'items.product'])->latest()->get();
-        return view('admin.orders.index', compact('orders'));
+        return Inertia::render('Orders/AdminIndex', [
+            'orders' => $orders
+        ]);
     }
 
     public function updateStatus(Request $request, Order $order)

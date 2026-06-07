@@ -4,13 +4,16 @@ namespace App\Http\Controllers;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
+use Inertia\Inertia;
 
 class CartController extends Controller
 {
     public function index()
     {
         $cart = session()->get('cart', []);
-        return view('cart.index', compact('cart'));
+        return Inertia::render('Cart/Index', [
+            'cart' => $cart
+        ]);
     }
 
     public function add(Request $request, Product $product)

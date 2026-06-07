@@ -34,7 +34,9 @@ class ProductController extends Controller
     {
         Gate::authorize('admin');
         $categories = Category::all();
-        return view('products.create', compact('categories'));
+        return Inertia::render('Products/Create', [
+            'categories' => $categories
+        ]);
     }
 
     public function store(StoreProductRequest $request)
@@ -51,14 +53,19 @@ class ProductController extends Controller
 
     public function show(Product $product)
     {
-        return view('products.show', compact('product'));
+        return Inertia::render('Products/Show', [
+            'product' => $product
+        ]);
     }
 
     public function edit(Product $product)
     {
         Gate::authorize('admin');
         $categories = Category::all();
-        return view('products.edit', compact('product', 'categories'));
+        return Inertia::render('Products/Edit', [
+            'product' => $product,
+            'categories' => $categories
+        ]);
     }
 
     public function update(UpdateProductRequest $request, Product $product)
