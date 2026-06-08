@@ -53,14 +53,21 @@ export default function Index({ cart }) {
 
     const updateQuantity = (id, newQuantity) => {
         if (newQuantity < 1) return;
+        
+        // Optimistic UI update
         setItems(prev => ({
             ...prev,
             [id]: { ...prev[id], quantity: newQuantity }
         }));
+        
+        // Send request to server
+        router.patch(`/cart/update/${id}`, { quantity: newQuantity }, {
+            preserveScroll: true
+        });
     };
 
     const handleRemove = (id) => {
-        router.delete(`/cart/${id}`);
+        router.delete(`/cart/remove/${id}`);
     };
 
     const handleCheckout = (e) => {

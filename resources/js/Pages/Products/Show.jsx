@@ -1,12 +1,19 @@
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import StoreLayout from '@/Layouts/StoreLayout';
 
 export default function Show({ product }) {
     const { post, processing } = useForm();
 
-    const handleAddToCart = (e) => {
+    const handleAddToCart = (e, isBuyNow = false) => {
         e.preventDefault();
-        post(`/cart/${product.id}`);
+        post(`/cart/add/${product.id}`, {
+            preserveScroll: true,
+            onSuccess: () => {
+                if (isBuyNow) {
+                    router.visit('/cart');
+                }
+            }
+        });
     };
 
     return (
@@ -53,7 +60,7 @@ export default function Show({ product }) {
                             </div>
 
                             <div className="flex gap-4">
-                                <form onSubmit={handleAddToCart} className="flex-1">
+                                <form onSubmit={(e) => handleAddToCart(e, true)} className="flex-1">
                                     <button 
                                         type="submit" 
                                         disabled={product.stock <= 0 || processing} 
@@ -62,7 +69,7 @@ export default function Show({ product }) {
                                         Beli Sekarang
                                     </button>
                                 </form>
-                                <form onSubmit={handleAddToCart}>
+                                <form onSubmit={(e) => handleAddToCart(e, false)}>
                                     <button 
                                         type="submit" 
                                         disabled={product.stock <= 0 || processing} 

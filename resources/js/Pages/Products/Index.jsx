@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Head, Link, useForm } from '@inertiajs/react';
+import { Head, Link, useForm, router } from '@inertiajs/react';
 import StoreLayout from '@/Layouts/StoreLayout';
 
 export default function Index({ products, categories, flash }) {
@@ -15,7 +15,7 @@ export default function Index({ products, categories, flash }) {
             preserveScroll: true,
             onSuccess: () => {
                 if (isBuyNow) {
-                    // Logic to redirect or handle buy now could go here
+                    router.visit('/cart');
                 }
             }
         });
@@ -34,13 +34,6 @@ export default function Index({ products, categories, flash }) {
             </div>
 
             <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
-                
-                {flash && flash.success && (
-                    <div className="mb-8 p-4 bg-green-50 border-l-4 border-green-500 text-green-700">
-                        {flash.success}
-                    </div>
-                )}
-
                 <div className="flex flex-col md:flex-row gap-8">
                     {/* Sidebar Kategori */}
                     <aside className="w-full md:w-64 flex-shrink-0">

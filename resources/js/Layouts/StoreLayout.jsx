@@ -2,15 +2,19 @@ import { useState } from 'react';
 import { Link, usePage } from '@inertiajs/react';
 
 export default function StoreLayout({ children }) {
-    const { auth } = usePage().props;
+    const { auth, cart, flash } = usePage().props;
     const [open, setOpen] = useState(false);
     
-    // Asumsikan kita punya state cart dari props (atau akan dipasang secara global nanti)
-    const { cart } = usePage().props;
     const cartCount = cart ? Object.keys(cart).length : 0;
 
     return (
         <div className="font-sans antialiased bg-gray-50 text-gray-800 flex flex-col min-h-screen">
+            {flash && flash.success && (
+                <div className="fixed top-20 right-4 z-[60] bg-green-500 text-white px-6 py-3 rounded-xl shadow-lg flex items-center gap-3 animate-fade-in-down">
+                    <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span className="font-medium">{flash.success}</span>
+                </div>
+            )}
             <nav className="bg-white border-b border-gray-100 sticky top-0 z-50">
                 <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
                     <div className="flex justify-between h-16">

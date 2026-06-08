@@ -36,6 +36,22 @@ class CartController extends Controller
         return redirect()->back()->with('success', 'Produk ditambahkan ke keranjang!');
     }
 
+    public function update(Request $request, Product $product)
+    {
+        $request->validate([
+            'quantity' => 'required|integer|min:1'
+        ]);
+
+        $cart = session()->get('cart', []);
+        
+        if (isset($cart[$product->id])) {
+            $cart[$product->id]['quantity'] = $request->quantity;
+            session()->put('cart', $cart);
+        }
+
+        return redirect()->back();
+    }
+
     public function remove(Product $product)
     {
         $cart = session()->get('cart', []);

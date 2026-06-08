@@ -1,9 +1,8 @@
-import { Head, Link, useForm, usePage } from '@inertiajs/react';
+import { Head, Link, usePage, router } from '@inertiajs/react';
 import AdminLayout from '@/Layouts/AdminLayout';
 
 export default function AdminIndex({ orders }) {
     const { flash } = usePage().props;
-    const { patch } = useForm();
 
     const formatMoney = (amount) => {
         return new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(amount);
@@ -21,8 +20,9 @@ export default function AdminIndex({ orders }) {
     };
 
     const updateStatus = (orderId, newStatus) => {
-        patch(`/admin/orders/${orderId}/status`, {
-            data: { status: newStatus },
+        router.patch(`/admin/orders/${orderId}/status`, {
+            status: newStatus 
+        }, {
             preserveScroll: true
         });
     };
