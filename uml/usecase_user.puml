@@ -1,0 +1,38 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+
+actor "User (Pelanggan)" as user
+
+rectangle "Sistem User (Pelanggan)" {
+  usecase "Akses Landing Page" as U_Landing
+  usecase "Akses Katalog Produk" as U_Katalog
+  usecase "Akses Detail Produk" as U_Detail
+  usecase "Melihat Isi Keranjang" as U_ViewCart
+  usecase "Menambah Produk ke Keranjang" as U_AddCart
+  usecase "Mengubah Jumlah Keranjang" as U_UpdateCart
+  usecase "Menghapus Produk dari Keranjang" as U_DeleteCart
+  usecase "Melakukan Checkout Pesanan" as U_Checkout
+  usecase "Melihat Riwayat Pesanan" as U_History
+  usecase "Melihat/Mengubah Profil" as U_UpdateProfile
+  usecase "Menghapus Akun" as U_DeleteProfile
+  usecase "Logout" as U_Logout
+
+  U_Katalog <.. U_Detail : <<extend>>
+  U_Katalog <.. U_AddCart : <<extend>>
+  U_Detail <.. U_AddCart : <<extend>>
+  U_ViewCart <.. U_UpdateCart : <<include>>
+  U_ViewCart <.. U_DeleteCart : <<include>>
+  U_ViewCart <.. U_Checkout : <<include>>
+  U_UpdateProfile <.. U_DeleteProfile : <<extend>>
+}
+
+user --> U_Landing
+user --> U_Katalog
+user --> U_ViewCart
+user --> U_History
+user --> U_UpdateProfile
+user --> U_Logout
+
+@enduml

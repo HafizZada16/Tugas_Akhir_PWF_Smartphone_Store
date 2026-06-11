@@ -1,60 +1,93 @@
 @startuml
 left to right direction
 skinparam packageStyle rectangle
+skinparam backgroundColor white
 
 actor "Guest (Belum Login)" as guest
 actor "User (Pelanggan)" as user
 actor "Admin" as admin
 
-rectangle "Fitur E-Commerce HP" {
-  ' Fitur Umum (Tamu)
-  usecase "Akses Landing Page ('Mulai Belanja')" as UC_Landing
-  usecase "Akses Katalog Produk ('Katalog')" as UC_Katalog
-  usecase "Akses Detail Produk ('Klik Card')" as UC_Detail
-  usecase "Tambah ke Keranjang ('Beli')" as UC_AddCart
-  usecase "Akses Keranjang ('Icon Cart')" as UC_ViewCart
-  usecase "Login & Register ('Log in')" as UC_Auth
+rectangle "Sistem Guest" {
+  usecase "Akses Landing Page" as G_Landing
+  usecase "Akses Katalog Produk" as G_Katalog
+  usecase "Akses Detail Produk" as G_Detail
+  usecase "Melihat Isi Keranjang" as G_ViewCart
+  usecase "Menambah Produk ke Keranjang" as G_AddCart
+  usecase "Mengubah Jumlah Keranjang" as G_UpdateCart
+  usecase "Menghapus Produk dari Keranjang" as G_DeleteCart
+  usecase "Login" as G_Login
+  usecase "Register" as G_Register
   
-  ' Fitur Khusus User (Pelanggan)
-  usecase "Melakukan Checkout ('Checkout')" as UC_Checkout
-  usecase "Melihat Riwayat Pesanan ('Dashboard')" as UC_History
-  usecase "Mengelola Profil ('Profile')" as UC_Profile
-  usecase "Keluar ('Log Out')" as UC_Logout
+  G_Katalog <.. G_Detail : <<extend>>
+  G_Katalog <.. G_AddCart : <<extend>>
+  G_Detail <.. G_AddCart : <<extend>>
+  G_ViewCart <.. G_UpdateCart : <<include>>
+  G_ViewCart <.. G_DeleteCart : <<include>>
+  G_Login <.. G_Register : <<extend>>
+}
+
+rectangle "Sistem User (Pelanggan)" {
+  usecase "Akses Landing Page" as U_Landing
+  usecase "Akses Katalog Produk" as U_Katalog
+  usecase "Akses Detail Produk" as U_Detail
+  usecase "Melihat Isi Keranjang" as U_ViewCart
+  usecase "Menambah Produk ke Keranjang" as U_AddCart
+  usecase "Mengubah Jumlah Keranjang" as U_UpdateCart
+  usecase "Menghapus Produk dari Keranjang" as U_DeleteCart
+  usecase "Melakukan Checkout Pesanan" as U_Checkout
+  usecase "Melihat Riwayat Pesanan" as U_History
+  usecase "Melihat/Mengubah Profil" as U_UpdateProfile
+  usecase "Menghapus Akun" as U_DeleteProfile
+  usecase "Logout" as U_Logout
   
-  ' Fitur Khusus Admin
-  usecase "Akses Admin Dashboard" as UC_AdminDash
-  usecase "Kelola Produk (Tambah/Edit/Hapus)" as UC_ManageProduct
-  usecase "Kelola Kategori Produk" as UC_ManageCat
-  usecase "Kelola Pesanan (Ubah Status)" as UC_ManageOrder
-  usecase "Akses Dokumentasi API" as UC_ApiDocs
+  U_Katalog <.. U_Detail : <<extend>>
+  U_Katalog <.. U_AddCart : <<extend>>
+  U_Detail <.. U_AddCart : <<extend>>
+  U_ViewCart <.. U_UpdateCart : <<include>>
+  U_ViewCart <.. U_DeleteCart : <<include>>
+  U_ViewCart <.. U_Checkout : <<include>>
+  U_UpdateProfile <.. U_DeleteProfile : <<extend>>
+}
+
+rectangle "Sistem Admin" {
+  usecase "Akses Admin Dashboard" as A_AdminDash
+  usecase "Melihat Daftar Produk" as A_AdminListProduct
+  usecase "Menambah Produk Baru" as A_AdminAddProduct
+  usecase "Mengubah Data Produk" as A_AdminEditProduct
+  usecase "Menghapus Produk" as A_AdminDeleteProduct
+  usecase "Melihat Daftar Pesanan" as A_AdminListOrder
+  usecase "Mengubah Status Pesanan" as A_AdminUpdateStatus
+  usecase "Melihat/Mengubah Profil" as A_UpdateProfile
+  usecase "Menghapus Akun" as A_DeleteProfile
+  usecase "Logout" as A_Logout
+  
+  A_AdminListProduct <.. A_AdminAddProduct : <<extend>>
+  A_AdminListProduct <.. A_AdminEditProduct : <<include>>
+  A_AdminListProduct <.. A_AdminDeleteProduct : <<include>>
+  A_AdminListOrder <.. A_AdminUpdateStatus : <<include>>
+  A_UpdateProfile <.. A_DeleteProfile : <<extend>>
 }
 
 ' --- Pemetaan Guest ---
-guest --> UC_Landing
-guest --> UC_Katalog
-guest --> UC_Detail
-guest --> UC_AddCart
-guest --> UC_ViewCart
-guest --> UC_Auth
+guest --> G_Landing
+guest --> G_Katalog
+guest --> G_ViewCart
+guest --> G_Login
 
 ' --- Pemetaan User (Pelanggan) ---
-user --> UC_Landing
-user --> UC_Katalog
-user --> UC_Detail
-user --> UC_AddCart
-user --> UC_ViewCart
-user --> UC_Checkout
-user --> UC_History
-user --> UC_Profile
-user --> UC_Logout
+user --> U_Landing
+user --> U_Katalog
+user --> U_ViewCart
+user --> U_Checkout
+user --> U_History
+user --> U_UpdateProfile
+user --> U_Logout
 
 ' --- Pemetaan Admin ---
-admin --> UC_AdminDash
-admin --> UC_ManageProduct
-admin --> UC_ManageCat
-admin --> UC_ManageOrder
-admin --> UC_ApiDocs
-admin --> UC_Profile
-admin --> UC_Logout
+admin --> A_AdminDash
+admin --> A_AdminListProduct
+admin --> A_AdminListOrder
+admin --> A_UpdateProfile
+admin --> A_Logout
 
 @enduml

@@ -1,0 +1,75 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+
+actor "Guest (Belum Login)" as guest
+actor "User (Pelanggan)" as user
+actor "Admin" as admin
+
+rectangle "Sistem E-Commerce" {
+  ' Base Use Cases
+  usecase "Akses Landing Page" as UC_Landing
+  usecase "Akses Katalog Produk" as UC_Katalog
+  usecase "Melihat Isi Keranjang" as UC_ViewCart
+  usecase "Login" as UC_Login
+  usecase "Melihat Riwayat Pesanan" as UC_History
+  usecase "Melihat/Mengubah Profil" as UC_UpdateProfile
+  usecase "Akses Admin Dashboard" as UC_AdminDash
+  usecase "Melihat Daftar Produk" as UC_AdminListProduct
+  usecase "Melihat Daftar Pesanan" as UC_AdminListOrder
+  usecase "Logout" as UC_Logout
+
+  ' Extended Use Cases
+  usecase "Akses Detail Produk" as UC_Detail
+  usecase "Menambah Produk ke Keranjang" as UC_AddCart
+  usecase "Mengubah Jumlah Keranjang" as UC_UpdateCart
+  usecase "Menghapus Produk dr Keranjang" as UC_DeleteCart
+  usecase "Melakukan Checkout Pesanan" as UC_Checkout
+  usecase "Register" as UC_Register
+  usecase "Menghapus Akun" as UC_DeleteProfile
+  usecase "Menambah Produk Baru" as UC_AdminAddProduct
+  usecase "Mengubah Data Produk" as UC_AdminEditProduct
+  usecase "Menghapus Produk" as UC_AdminDeleteProduct
+  usecase "Mengubah Status Pesanan" as UC_AdminUpdateStatus
+
+  ' Relationships
+  UC_Katalog <.. UC_Detail : <<extend>>
+  UC_Katalog <.. UC_AddCart : <<extend>>
+  UC_Detail <.. UC_AddCart : <<extend>>
+  
+  UC_ViewCart <.. UC_UpdateCart : <<include>>
+  UC_ViewCart <.. UC_DeleteCart : <<include>>
+  UC_ViewCart <.. UC_Checkout : <<include>>
+  
+  UC_Login <.. UC_Register : <<extend>>
+  
+  UC_UpdateProfile <.. UC_DeleteProfile : <<extend>>
+  
+  UC_AdminListProduct <.. UC_AdminAddProduct : <<extend>>
+  UC_AdminListProduct <.. UC_AdminEditProduct : <<include>>
+  UC_AdminListProduct <.. UC_AdminDeleteProduct : <<include>>
+  
+  UC_AdminListOrder <.. UC_AdminUpdateStatus : <<include>>
+}
+
+' Actor to Base Use Case Mappings
+guest --> UC_Landing
+guest --> UC_Katalog
+guest --> UC_ViewCart
+guest --> UC_Login
+
+user --> UC_Landing
+user --> UC_Katalog
+user --> UC_ViewCart
+user --> UC_History
+user --> UC_UpdateProfile
+user --> UC_Logout
+
+admin --> UC_AdminDash
+admin --> UC_AdminListProduct
+admin --> UC_AdminListOrder
+admin --> UC_UpdateProfile
+admin --> UC_Logout
+
+@enduml

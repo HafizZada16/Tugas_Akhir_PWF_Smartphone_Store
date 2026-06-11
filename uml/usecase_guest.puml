@@ -1,0 +1,32 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+
+actor "Guest (Belum Login)" as guest
+
+rectangle "Sistem Guest" {
+  usecase "Akses Landing Page" as G_Landing
+  usecase "Akses Katalog Produk" as G_Katalog
+  usecase "Akses Detail Produk" as G_Detail
+  usecase "Melihat Isi Keranjang" as G_ViewCart
+  usecase "Menambah Produk ke Keranjang" as G_AddCart
+  usecase "Mengubah Jumlah Keranjang" as G_UpdateCart
+  usecase "Menghapus Produk dari Keranjang" as G_DeleteCart
+  usecase "Login" as G_Login
+  usecase "Register" as G_Register
+
+  G_Katalog <.. G_Detail : <<extend>>
+  G_Katalog <.. G_AddCart : <<extend>>
+  G_Detail <.. G_AddCart : <<extend>>
+  G_ViewCart <.. G_UpdateCart : <<include>>
+  G_ViewCart <.. G_DeleteCart : <<include>>
+  G_Login <.. G_Register : <<extend>>
+}
+
+guest --> G_Landing
+guest --> G_Katalog
+guest --> G_ViewCart
+guest --> G_Login
+
+@enduml

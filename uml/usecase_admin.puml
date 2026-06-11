@@ -1,0 +1,33 @@
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam backgroundColor white
+
+actor "Admin" as admin
+
+rectangle "Sistem Admin" {
+  usecase "Akses Admin Dashboard" as A_AdminDash
+  usecase "Melihat Daftar Produk" as A_AdminListProduct
+  usecase "Menambah Produk Baru" as A_AdminAddProduct
+  usecase "Mengubah Data Produk" as A_AdminEditProduct
+  usecase "Menghapus Produk" as A_AdminDeleteProduct
+  usecase "Melihat Daftar Pesanan" as A_AdminListOrder
+  usecase "Mengubah Status Pesanan" as A_AdminUpdateStatus
+  usecase "Melihat/Mengubah Profil" as A_UpdateProfile
+  usecase "Menghapus Akun" as A_DeleteProfile
+  usecase "Logout" as A_Logout
+
+  A_AdminListProduct <.. A_AdminAddProduct : <<extend>>
+  A_AdminListProduct <.. A_AdminEditProduct : <<include>>
+  A_AdminListProduct <.. A_AdminDeleteProduct : <<include>>
+  A_AdminListOrder <.. A_AdminUpdateStatus : <<include>>
+  A_UpdateProfile <.. A_DeleteProfile : <<extend>>
+}
+
+admin --> A_AdminDash
+admin --> A_AdminListProduct
+admin --> A_AdminListOrder
+admin --> A_UpdateProfile
+admin --> A_Logout
+
+@enduml
