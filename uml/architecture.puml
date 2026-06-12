@@ -1,4 +1,27 @@
 @startuml
+left to right direction
+skinparam packageStyle rectangle
+skinparam componentStyle rectangle
+skinparam backgroundColor white
+
+skinparam node {
+  BackgroundColor #F8F9FA
+  BorderColor #343A40
+}
+skinparam database {
+  BackgroundColor #E9ECEF
+  BorderColor #343A40
+}
+skinparam package {
+  BackgroundColor #FFFFFF
+  BorderColor #6C757D
+}
+skinparam component {
+  BackgroundColor #E3F2FD
+  BorderColor #0D6EFD
+  ArrowColor #0D6EFD
+}
+
 node "Client Browser" {
   [Blade Views (HTML/CSS/JS)] as views
 }
@@ -6,7 +29,7 @@ node "Client Browser" {
 node "Laravel Web Server (Apache/Nginx)" {
   [Routes (web.php, api.php)] as routes
   
-  package "Controllers" {
+  package "Controllers" as Controllers {
     [ProductController]
     [OrderController]
     [CartController]
@@ -15,7 +38,7 @@ node "Laravel Web Server (Apache/Nginx)" {
     [Api\\AuthController]
   }
 
-  package "Models (Eloquent ORM)" {
+  package "Models (Eloquent ORM)" as Models {
     [User]
     [Product]
     [Category]

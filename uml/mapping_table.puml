@@ -1,0 +1,71 @@
+@startuml
+left to right direction
+skinparam roundcorner 5
+skinparam linetype ortho
+skinparam shadowing false
+
+skinparam class {
+    BackgroundColor #FFFFFF
+    ArrowColor #0D6EFD
+    BorderColor #343A40
+}
+
+class users <<Table>> {
+  + id : BIGINT [PK]
+  --
+  name : VARCHAR
+  email : VARCHAR
+  password : VARCHAR
+  role : ENUM
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+class categories <<Table>> {
+  + id : BIGINT [PK]
+  --
+  name : VARCHAR
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+class products <<Table>> {
+  + id : BIGINT [PK]
+  --
+  ~ category_id : BIGINT [FK]
+  name : VARCHAR
+  description : TEXT
+  price : DECIMAL
+  stock : INT
+  image : VARCHAR
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+class orders <<Table>> {
+  + id : BIGINT [PK]
+  --
+  ~ user_id : BIGINT [FK]
+  total_price : DECIMAL
+  status : ENUM
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+class order_items <<Table>> {
+  + id : BIGINT [PK]
+  --
+  ~ order_id : BIGINT [FK]
+  ~ product_id : BIGINT [FK]
+  quantity : INT
+  price : DECIMAL
+  created_at : TIMESTAMP
+  updated_at : TIMESTAMP
+}
+
+users "1" --> "N" orders : "user_id = id"
+categories "1" --> "N" products : "category_id = id"
+orders "1" --> "N" order_items : "order_id = id"
+products "1" --> "N" order_items : "product_id = id"
+
+@enduml
