@@ -114,7 +114,12 @@ export default function StoreLayout({ children }) {
                                         </button>
 
                                         {open && (
-                                            <div className="absolute right-0 mt-3 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden transition-all">
+                                            <div
+                                                className="absolute right-0 mt-3 w-48 bg-white border border-gray-100 rounded-xl shadow-xl z-50 overflow-hidden transition-all"
+                                                onMouseDown={(e) =>
+                                                    e.preventDefault()
+                                                }
+                                            >
                                                 <div className="px-4 py-3 border-b border-gray-100 bg-gray-50/50">
                                                     <p className="text-sm font-semibold text-gray-900 truncate">
                                                         {auth.user.name}
@@ -125,7 +130,7 @@ export default function StoreLayout({ children }) {
                                                 </div>
 
                                                 <Link
-                                                    href="/profile"
+                                                    href={route("profile.edit")}
                                                     className="block px-4 py-2.5 text-sm text-gray-700 hover:bg-gray-50 hover:text-[#FF6900] transition"
                                                 >
                                                     Profil Saya
@@ -138,7 +143,7 @@ export default function StoreLayout({ children }) {
                                                 </Link>
 
                                                 <Link
-                                                    href="/logout"
+                                                    href={route("logout")}
                                                     method="post"
                                                     as="button"
                                                     className="block w-full text-left px-4 py-2.5 text-sm text-red-600 hover:bg-red-50 transition border-t border-gray-100 font-medium"
